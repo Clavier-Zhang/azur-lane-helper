@@ -6,7 +6,6 @@ import matplotlib.pyplot as plt
 import math
 from constants import *
 
-# TOOLS
 
 def analyze_screen():
     c.screenshot('screen.png')
@@ -20,9 +19,12 @@ def analyze_screen():
     y2 = (SCREEN_WIDTH - pos[1][0]) * 0.5
     point1 = [x1, y1]
     point2 = [x2, y2]
+    print ('point 1 is : ', end='')
     print (point1)
+    print ('point 2 is : ', end='')
     print (point2)
     distance = math.sqrt((x1-x2)**2 + (y1-y2)**2)
+    print ("the distance is ", "end")
     print (distance)
 
 def setInterval(func,time):
