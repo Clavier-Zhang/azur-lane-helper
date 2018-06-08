@@ -38,7 +38,9 @@ def gap(time):
 
 def update_screen():
     c.screenshot('screen.png')
+    global screen
     screen = ac.imread('screen.png')
+    state.screen = screen
     return screen
 
 def touch(point, time):
@@ -46,6 +48,13 @@ def touch(point, time):
     print("touch", end="")
     print(point)
     gap(time)
+
+def swipe_little(length, time):
+    MISSION_SWIPE_START = [299, 286]
+    MISSION_SWIPE_END = [299, 210]
+    s.swipe(299, 286, 299, 286 - length, time)
+    print("swipe success")
+    gap(3)
 
 def find_one(target, screen, target_confidence):
     data = ac.find_template(screen, target)
@@ -87,7 +96,28 @@ def find_list(targets, screen, target_confidence):
 def select_one(target, screen, confidence):
     data = find_one(target, screen, confidence)
     if (data == None):
-        print("cannot select target")
+        print("can not select the target")
         return FAIL
-    touch(data[0], 1)
+    touch(data, 1)
+    print("select success")
+    return SUCCESS
+
+def select_all(target, screen, confidence):
+    data = find_all(target, screen, confidence)
+    if (data == None):
+        print("can not select the target")
+        return FAIL
+    for entity in data:
+        touch(entity, 1)
+    print("select success")
+    return SUCCESS
+
+def select_list(targets, screen, confidence):
+    data = find_list(targets, screen, confidence)
+    if (data == None):
+        print("can not select the target")
+        return FAIL
+    for entity in data:
+        touch(entity, 1)
+    print("select success")
     return SUCCESS

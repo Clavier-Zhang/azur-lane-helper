@@ -10,6 +10,19 @@ c = wda.Client(URL)
 s = c.session()
 screen = ac.imread('screen.png')
 
+class State:
+    
+    def __init__(self, screen):
+        self.screen = screen
+
+    def set_screen(screen):
+        self.screen = screen
+    
+    def get_screen(screen):
+        return self.screen
+        
+state = State(screen)
+
 # Event
 C1 = [139, 127]
 EVENT_CHAPTER_ONE = ac.imread('./image/event/EVENT_CHAPTER_ONE.png')

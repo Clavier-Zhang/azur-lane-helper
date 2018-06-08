@@ -6,25 +6,7 @@ from constants import *
 from tools import *
 
 
-# 选中所有目标
-def select(target, screen):
-    data = find_all(target, screen, 0.95)
-    if (data == []):
-        return FAIL
-    touch(data[0], 1)
-    return SUCCESS
 
-# 选中所有目标
-def select_all(target, screen):
-    data = find_all(target, screen, 0.95)
-    for point in data:
-        touch(point, 0)
-    return
-
-# 选中所有不同种类目标
-def select_list(targets, screen):
-    for target in targets:
-        select_all(target, screen)
 
 def count(target, screen):
     data = ac.find_all_template(screen, target)
@@ -74,7 +56,7 @@ def team_mission(team):
 
     available_mission = count(MISSION_FEATURE_A, screen)
     if (available_mission == 0):
-        swipe_little()
+        swipe(70, 0.2)
         screen = update_screen()
         available_mission = count(MISSION_FEATURE_A, screen)
         print("can't find missions in this page, try swipe")
@@ -90,10 +72,10 @@ def team_mission(team):
     select(MISSION_FEATURE_A, screen)
 
     touch(MISSION_MEMBER_CHOOESE, 1)
-    swipe_little()
+    swipe(70, 0.2)
     print("swipe")
     if (working_teams >= 2):
-        swipe_little()
+        swipe(70, 0.2)
     
     screen = update_screen()
     select_list(team, screen)
@@ -236,4 +218,6 @@ update_screen()
 #select(MISSION_FEATURE_A, screen)
 # select_fleet('one', screen)
 
-print (find_list([MISSION_FEATURE_A], screen, 0.8))
+# find_list([MISSION_FEATURE_A], screen, 0.8))
+
+select_list([CLEVELAND, HELENA], state.screen, 0.8)
