@@ -1,11 +1,18 @@
-import lib.aircv as ac
 import lib.aircv as aircv
+import lib.wda as wda
+import lib.aircv as ac
 
+# URL = 'http://192.168.1.65:8100' #家里
+URL = 'http://192.168.239.149:8100' #公司
 
 # Event
 C1 = [139, 127]
 EVENT_CHAPTER_ONE = ac.imread('./image/event/EVENT_CHAPTER_ONE.png')
 
+# Device
+SCREEN_WIDTH = 750
+SUCCESS = 'SUCCESS'
+FAIL = 'FAIL'
 
 # 舰娘
 CLEVELAND = ac.imread('./image/ships/standard/CLEVELAND.png')
