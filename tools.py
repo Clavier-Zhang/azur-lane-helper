@@ -1,13 +1,10 @@
 import threading
-import lib.aircv as aircv
-import lib.wda as wda
-import lib.aircv as ac
+import modules.aircv as aircv
+import modules.wda as wda
+import modules.aircv as ac
 import matplotlib.pyplot as plt
 import math
 from constants import *
-
-c = wda.Client(URL)
-s = c.session()
 
 # TOOLS
 
@@ -37,13 +34,58 @@ def gap(time):
     e = threading.Event()
     e.wait(time)
 
-def get_screen():
+def update_screen():
     c.screenshot('screen.png')
     screen = ac.imread('screen.png')
     return screen
 
-def touch(point):
+def touch(point, time):
     s.tap(point[0] ,point[1])
     print("touch", end="")
     print(point)
-    gap(1)
+    gap(time)
+
+def find_one(target, screen, target_confidence):
+    data = ac.find_template(screen, target)
+    if (data == None):
+        return None
+    confidence = data['confidence']
+    if (confidence < target_confidence):
+        return None
+    x = data['result'][1] * 0.5
+    y = (SCREEN_WIDTH - data['result'][0]) * 0.5
+    return [x, y, confidence]
+
+def find_all(target, screen, target_confidence):
+    data = ac.find_all_template(screen, target)
+    results = []
+    for entity in data:
+        confidence = entity['confidence']
+        if (confidence < target_confidence):
+            continue
+        x = entity['result'][1] * 0.5
+        y = (SCREEN_WIDTH - entity['result'][0]) * 0.5
+        temp = [x, y, confidence]
+        results.append(temp)
+    if (results == []):
+        return None      
+    return results
+
+def find_list(targets, screen, target_confidence):
+    results = []
+    for target in targets:
+        temp = find_all(target, screen, target_confidence)
+        if (temp == None):
+            continue
+        results += temp
+    if (results == []):
+        return None
+    return results
+
+def select_one(target, screen, confidence):
+    data = find_one(target, screen, confidence)
+    if (data == None):
+        print("cannot select target")
+        return FAIL
+    touch(data[0], 1)
+    return SUCCESS

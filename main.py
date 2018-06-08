@@ -1,56 +1,30 @@
-# -*- coding: utf-8 -*-
-
-import lib.aircv as aircv
-import lib.wda as wda
-import lib.aircv as ac
+import modules.aircv as aircv
+import modules.wda as wda
+import modules.aircv as ac
 
 from constants import *
 from tools import *
 
-c = wda.Client(URL)
-s = c.session()
-
-
-
-
-
-def quick_touch(point):
-    s.tap(point[0] ,point[1])
-    print("touch", end="")
-    print(point)
-
-def find_all(target, screen):
-    data = ac.find_all_template(screen, target)
-    results = []
-    for entity in data:
-        confidence = entity['confidence']
-        if (confidence < 0.5):
-            continue
-        x = entity['result'][1] * 0.5
-        y = (SCREEN_WIDTH - entity['result'][0]) * 0.5
-        temp = [x, y, confidence]
-        results.append(temp)
-    return results
-
-# 选中所有目标
-def select_one(target, screen):
-    data = find_all(target, screen)
-    if (data == []):
-        return FAIL
-    touch(data[0])
-    return SUCCESS
 
 # 选中所有目标
 def select(target, screen):
-    data = find_all(target, screen)
+    data = find_all(target, screen, 0.95)
+    if (data == []):
+        return FAIL
+    touch(data[0], 1)
+    return SUCCESS
+
+# 选中所有目标
+def select_all(target, screen):
+    data = find_all(target, screen, 0.95)
     for point in data:
-        quick_touch(point)
+        touch(point, 0)
     return
 
 # 选中所有不同种类目标
-def select_all(targets, screen):
+def select_list(targets, screen):
     for target in targets:
-        select(target, screen)
+        select_all(target, screen)
 
 def count(target, screen):
     data = ac.find_all_template(screen, target)
@@ -68,21 +42,19 @@ def swipe_little():
 # fleet = one or two
 def select_fleet(fleet, screen):
     if (fleet == 'one'):
-        result = select_one(FLEET_ONE_RIGHT, screen)
+        result = select(FLEET_ONE_RIGHT, screen)
         if (result == FAIL):
-            select_one(FLEET_ONE_LEFT, screen)
+            select(FLEET_ONE_LEFT, screen)
     if (fleet == 'two'):
-        result = select_one(FLEET_TWO_RIGHT, screen)
+        result = select(FLEET_TWO_RIGHT, screen)
         if (result == FAIL):
-            select_one(FLEET_TWO_LEFT, screen)
-# retire
-#def find_target(target, screen):
+            select(FLEET_TWO_LEFT, screen)
 
 # 委托
 # require: call this function in the chapter screen
 def team_mission(team):
 
-    screen = get_screen()
+    screen = update_screen()
     working_teams = count(WORKING, screen)
     finishing_teams = 4 - count(MISSION_BOSS_FEATURE_A, screen) - (count(MISSION_FEATURE_B, screen)) - count(WORKING, screen)
     print(working_teams, end = ' ')
@@ -103,7 +75,7 @@ def team_mission(team):
     available_mission = count(MISSION_FEATURE_A, screen)
     if (available_mission == 0):
         swipe_little()
-        screen = get_screen()
+        screen = update_screen()
         available_mission = count(MISSION_FEATURE_A, screen)
         print("can't find missions in this page, try swipe")
     print(available_mission, end='')
@@ -115,22 +87,22 @@ def team_mission(team):
         print("this is the special mission, need level 100")
         return
 
-    select_one(MISSION_FEATURE_A, screen)
+    select(MISSION_FEATURE_A, screen)
 
-    touch(MISSION_MEMBER_CHOOESE)
+    touch(MISSION_MEMBER_CHOOESE, 1)
     swipe_little()
     print("swipe")
     if (working_teams >= 2):
         swipe_little()
     
-    screen = get_screen()
-    select_all(team, screen)
-    touch(MISSION_CONFIRM)
-    touch(MISSION_START)
-    touch(CONTINUE)
+    screen = update_screen()
+    select_list(team, screen)
+    touch(MISSION_CONFIRM, 1)
+    touch(MISSION_START, 1)
+    touch(CONTINUE, 1)
 
 def check_mission(teams):
-    touch(MISSION)
+    touch(MISSION, 1)
     for team in teams:
         team_mission(team)
 
@@ -148,13 +120,13 @@ def find_fleet(fleet_left, fleet_right, screen):
     return None
 
 def find_all_enemy(screen):
-    hard = find_all(ENEMY_HARD, screen)
-    medium = find_all(ENEMY_MEDIUM, screen)
-    boss = find_all(BOSS_FEATURE_A, screen)
+    hard = find_all(ENEMY_HARD, screen, 0.95)
+    medium = find_all(ENEMY_MEDIUM, screen, 0.95)
+    boss = find_all(BOSS_FEATURE_A, screen, 0.95)
     return hard + medium + boss
 
 def find_all_surprise(screen):
-    data = find_all(SURPRISE, screen)
+    data = find_all(SURPRISE, screen, 0.95)
     results = []
     for entity in data:
         x = entity[0]
@@ -209,10 +181,10 @@ def detect_screen(screen):
 
 
 def attack():
-    screen = get_screen()
-    touch(EIGHT_THREE)
-    touch(GO_NOW_A)
-    touch(GO_NOW_B)
+    screen = update_screen()
+    touch(EIGHT_THREE, 1)
+    touch(GO_NOW_A, 1)
+    touch(GO_NOW_B, 1)
     return
 
 
@@ -220,36 +192,32 @@ def attack():
 
 def determine_action(current_screen, screen):
     if (current_screen == 'chapter1'):
-        touch(ONE_THREE)
-        touch(GO_NOW_A)
-        touch(GO_NOW_B)
+        touch(ONE_THREE, 1)
+        touch(GO_NOW_A, 1)
+        touch(GO_NOW_B, 1)
     elif (current_screen == 'map'):
         enemies = find_all_enemy(screen)
         if (enemies == []):
             return
-        touch(enemies[0])
+        touch(enemies[0], 1)
     elif (current_screen == 'prepare'):
-        touch(WEIGH_ANCHOR)
+        touch(WEIGH_ANCHOR, 1)
     elif (current_screen == 'battle'):
         return
     elif (current_screen == 'end'):
-        touch(CONFIRM)
+        touch(CONFIRM, 1)
     elif (current_screen == 'unknown'):
-        touch(CONTINUE)
+        touch(CONTINUE, 1)
     return
 
 
 def start_loop():
 
-    screen = get_screen()
+    update_screen()
     
     current_screen = detect_screen(screen)
     
     determine_action(current_screen, screen)
-    #print(detect_screen(screen))
-    #print (ac.find_all_template(screen, target))
-    #s.tap(x ,y)
-
 
 def start_game():
     setInterval(start_loop, 1)
@@ -258,13 +226,14 @@ def start_game():
  
 #start_game()
 
-analyze_screen()
+#analyze_screen()
 
 
-screen = get_screen()
-
-#select_one(MISSION_FEATURE_A, screen)
-#team_mission(MISSION_TEAM_FOUR)
-
-# attack()
+update_screen()
+#print (find_list([CLEVELAND, HELENA], screen, 0.95))
+#select(MISSION_FEATURE_A, screen)
+# team_mission(MISSION_TEAM_FOUR)
+#select(MISSION_FEATURE_A, screen)
 # select_fleet('one', screen)
+
+print (find_list([MISSION_FEATURE_A], screen, 0.8))

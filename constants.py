@@ -1,9 +1,14 @@
-import lib.aircv as aircv
-import lib.wda as wda
-import lib.aircv as ac
+import modules.aircv as aircv
+import modules.wda as wda
+import modules.aircv as ac
 
 # URL = 'http://192.168.1.65:8100' #家里
-URL = 'http://192.168.239.149:8100' #公司
+# URL = 'http://192.168.239.149:8100' #公司
+URL = 'http://192.168.199.134:8100' #太湖
+
+c = wda.Client(URL)
+s = c.session()
+screen = ac.imread('screen.png')
 
 # Event
 C1 = [139, 127]
