@@ -8,7 +8,7 @@ URL = 'http://192.168.199.134:8100' #太湖
 
 c = wda.Client(URL)
 s = c.session()
-screen = ac.imread('screen.png')
+screen = None
 
 class State:
     
@@ -20,7 +20,7 @@ class State:
     
     def get_screen(screen):
         return self.screen
-        
+
 state = State(screen)
 
 # Event
@@ -108,12 +108,16 @@ SIDE_BAR_END = [647, 316]
 
 
 # General
+CHAPTER_SCREEN = ac.imread('./image/CHAPTER_SCREEN.png')
 GO_NOW_A = [482, 254]  #第一个立刻前往
 GO_NOW_B = [553, 323]  #第一个立刻前往
 WEIGH_ANCHOR = [550, 332]  #出击
 CONTINUE = [325, 302] #继续
+BATTLE_END_CONFIRM = ac.imread('./image/BATTLE_END_CONFIRM.png')
 CONFIRM = [570, 320] #确认
 
+ESCAPE = [474, 196]
+AMBUSH = ac.imread('./image/AMBUSH.png')
 
 PREVIOUS_CHAPTER = [31, 189] #前一章
 NEXT_CHAPTER = [637, 189] #下一章
@@ -138,6 +142,12 @@ ONE_TWO = [238, 143]
 ONE_THREE = [344, 275]
 ONE_FOUR = [415, 93]
 
+# Chapter 1
+TWO_ONE = [426, 239]
+TWO_TWO = [392, 97]
+TWO_THREE = [146, 143]
+TWO_FOUR = [204, 285]
+
 # Ships
 FLEET_ONE_LEFT = ac.imread('./image/ships/FLEET_ONE_LEFT.png')
 FLEET_ONE_RIGHT = ac.imread('./image/ships/FLEET_ONE_RIGHT.png')
@@ -147,3 +157,18 @@ FLEET_TWO_LEFT = ac.imread('./image/ships/FLEET_TWO_LEFT.png')
 ENEMY_HARD = ac.imread('./image/ships/ENEMY_HARD.png')
 ENEMY_MEDIUM = ac.imread('./image/ships/ENEMY_MEDIUM.png')
 BOSS_FEATURE_A = ac.imread('./image/ships/BOSS_FEATURE_A.png')
+
+
+ENEMY_CV = ac.imread('./image/enemies/ENEMY_CV.png')
+ENEMY_BB = ac.imread('./image/enemies/ENEMY_BB.png')
+ENEMY_DD = ac.imread('./image/enemies/ENEMY_DD.png')
+ENEMY_BOSS = ac.imread('./image/enemies/ENEMY_BOSS.png')
+
+ENEMIES = [ENEMY_BB, ENEMY_CV, ENEMY_DD, ENEMY_BOSS]
+
+
+# week
+DAY_BOOK = [193.0, 255.0]
+DAY_CHIP = [333.0, 270.0]
+DAY_BOX = [488.0, 273.0]
+DAY_GADGET = [85.0, 252.0]
