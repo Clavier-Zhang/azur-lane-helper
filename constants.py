@@ -1,27 +1,30 @@
+
+import time
 import modules.aircv as aircv
 import modules.wda as wda
 import modules.aircv as ac
+import json
 
-# URL = 'http://192.168.1.65:8100' #家里
+URL = 'http://192.168.1.65:8100' #家里
 # URL = 'http://192.168.239.149:8100' #公司
-URL = 'http://192.168.199.134:8100' #太湖
+# URL = 'http://192.168.199.134:8100' #太湖
 
 c = wda.Client(URL)
 s = c.session()
-screen = None
 
 class State:
     
-    def __init__(self, screen):
-        self.screen = screen
+    def __init__(self):
+        self.screen = None
+        self.weekday = time.localtime(time.time()).tm_wday
+        self.mission_fleets = [None, True, True, True, True,]
 
-    def set_screen(screen):
-        self.screen = screen
-    
-    def get_screen(screen):
-        return self.screen
 
-state = State(screen)
+state = State()
+
+file = open('state.json','r',encoding='utf-8')  
+fleets_data = json.load(file)  
+state.mission_fleets = fleets_data
 
 # Event
 C1 = [139, 127]
@@ -32,62 +35,8 @@ SCREEN_WIDTH = 750
 SUCCESS = 'SUCCESS'
 FAIL = 'FAIL'
 
-# 舰娘
-CLEVELAND = ac.imread('./image/ships/standard/CLEVELAND.png')
-HELENA = ac.imread('./image/ships/standard/HELENA.png')
-FIREFLY = ac.imread('./image/ships/standard/FIREFLY.png')
-HOUSTON = ac.imread('./image/ships/standard/HOUSTON.png')
-LEXINGTON = ac.imread('./image/ships/standard/LEXINGTON.png')
-YORK = ac.imread('./image/ships/standard/YORK.png')
-
-ELIZABETH = ac.imread('./image/ships/standard/ELIZABETH.png')
-FLETCHER = ac.imread('./image/ships/standard/FLETCHER.png')
-NORFOLK = ac.imread('./image/ships/standard/NORFOLK.png')
-SANDIEGO = ac.imread('./image/ships/standard/SANDIEGO.png')
-TIRPITZ = ac.imread('./image/ships/standard/TIRPITZ.png')
-ZEPPELIN = ac.imread('./image/ships/standard/ZEPPELIN.png')
-
-DOWNS = ac.imread('./image/ships/standard/DOWNS.png')
-EDINBURGH = ac.imread('./image/ships/standard/EDINBURGH.png')
-SARATOGA = ac.imread('./image/ships/standard/SARATOGA.png')
-YORKTON = ac.imread('./image/ships/standard/YORKTON.png')
-Z23 = ac.imread('./image/ships/standard/Z23.png')
-HORNET = ac.imread('./image/ships/standard/HORNET.png')
-
-A_RAFI = ac.imread('./image/ships/standard/A_RAFI.png')
-S_QUAN = ac.imread('./image/ships/standard/S_QUAN.png')
-S_YU = ac.imread('./image/ships/standard/S_YU.png')
-A_BIAOQIANG = ac.imread('./image/ships/standard/A_BIAOQIANG.png')
-A_UNICORN = ac.imread('./image/ships/standard/A_UNICORN.png')
-A_INDIANAPOLIS = ac.imread('./image/ships/standard/A_INDIANAPOLIS.png')
 
 
-
-# 委托
-MISSION_CHOOSE = [185, 165]
-MISSION_MEMBER_CHOOESE = [189, 224]
-
-
-MISSION_SWIPE_START = [299, 286]
-MISSION_SWIPE_END = [299, 210]
-
-MISSION_CONFIRM = [580, 353]
-
-MISSION_START = [548, 232]
-
-MISSION_TEAM_ONE = [CLEVELAND, HELENA, HOUSTON, FIREFLY, YORK, LEXINGTON]
-MISSION_TEAM_TWO = [ELIZABETH, FLETCHER, NORFOLK, SANDIEGO, TIRPITZ, ZEPPELIN]
-MISSION_TEAM_THREE = [HORNET, DOWNS, EDINBURGH, SARATOGA, YORKTON, Z23]
-MISSION_TEAM_FOUR = [S_QUAN, S_YU, A_BIAOQIANG, A_INDIANAPOLIS, A_RAFI, A_INDIANAPOLIS]
-
-MISSION_TEAMS = [MISSION_TEAM_ONE, MISSION_TEAM_TWO, MISSION_TEAM_THREE, MISSION_TEAM_FOUR]
-
-WORKING = ac.imread('./image/WORKING.png')
-MISSION_FEATURE_A = ac.imread('./image/MISSION_FEATURE_A.png')
-MISSION_FEATURE_B = ac.imread('./image/MISSION_FEATURE_B.png')
-MISSION_BOSS_FEATURE_A = ac.imread('./image/MISSION_BOSS_FEATURE_A.png')
-
-MISSION_FINISHING_FEATURE_A = ac.imread('./image/MISSION_FINISHING_FEATURE_A.png')
 
 
 dock = aircv.imread('./image/dock.png')  #船坞
@@ -115,14 +64,13 @@ WEIGH_ANCHOR = [550, 332]  #出击
 CONTINUE = [325, 302] #继续
 BATTLE_END_CONFIRM = ac.imread('./image/BATTLE_END_CONFIRM.png')
 CONFIRM = [570, 320] #确认
+GO_BACK = [17.0, 14.0]
 
 ESCAPE = [474, 196]
 AMBUSH = ac.imread('./image/AMBUSH.png')
 
 PREVIOUS_CHAPTER = [31, 189] #前一章
 NEXT_CHAPTER = [637, 189] #下一章
-EVENT = [413, 351] #每日
-MISSION = [520, 353] #委托
 SIMULATION = [617, 353] #演习
 
 # Chapter 8
@@ -166,9 +114,3 @@ ENEMY_BOSS = ac.imread('./image/enemies/ENEMY_BOSS.png')
 
 ENEMIES = [ENEMY_BB, ENEMY_CV, ENEMY_DD, ENEMY_BOSS]
 
-
-# week
-DAY_BOOK = [193.0, 255.0]
-DAY_CHIP = [333.0, 270.0]
-DAY_BOX = [488.0, 273.0]
-DAY_GADGET = [85.0, 252.0]

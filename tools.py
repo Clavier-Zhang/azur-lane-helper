@@ -49,12 +49,11 @@ def touch(point, time):
     print(point)
     gap(time)
 
-def swipe(length, time):
-    MISSION_SWIPE_START = [299, 286]
-    MISSION_SWIPE_END = [299, 210]
-    s.swipe(299, 286, 299, 286 - length, time)
+def swipe(start, end, gap_time):
+    s.swipe(299, start, 299, end, 0.1)
     print("swipe success")
-    gap(2)
+    gap(gap_time)
+    update_screen()
 
 def find_one(target, target_confidence):
     data = ac.find_template(state.screen, target)
@@ -97,30 +96,30 @@ def select_one(target, confidence):
     data = find_one(target, confidence)
     if (data == None):
         print("can not select the target")
-        return FAIL
+        return 0
     touch(data, 1)
     print("select success")
-    return SUCCESS
+    return len(data)
 
 def select_all(target, confidence):
     data = find_all(target, confidence)
     if (data == None):
         print("can not select the target")
-        return FAIL
+        return 0
     for entity in data:
         touch(entity, 0)
     print("select success")
-    return SUCCESS
+    return len(data)
 
 def select_list(targets, confidence):
     data = find_list(targets, confidence)
     if (data == None):
         print("can not select the target")
-        return FAIL
+        return 0
     for entity in data:
         touch(entity, 0)
     print("select success")
-    return SUCCESS
+    return len(data)
 
 def count(target, confidence):
     data = find_all(target, confidence)
@@ -143,3 +142,30 @@ def exist(target, target_confidence):
         return True
     else:
         return False
+
+def weight_anchor():
+    touch(WEIGH_ANCHOR, 1)
+    update_screen()
+    battle_end_confirm = find_one(BATTLE_END_CONFIRM, 0.9)
+    while (battle_end_confirm == None):
+        update_screen()
+        touch(CONTINUE, 0.5)
+        battle_end_confirm = find_one(BATTLE_END_CONFIRM, 0.9)
+    touch(CONFIRM, 1)
+
+
+def select_all_ships(targets):
+    update_screen()
+    length = len(targets)
+    while (length > 0):
+        update_screen()
+        length -= select_list(targets, 0.9)
+        print(length)
+        if (length <= 0):
+            print("finish!!!!!!")
+            return
+        swipe(220, 150, 0.5)
+
+def go_to(target):
+    touch(target, 0.5)
+    update_screen()

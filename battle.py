@@ -1,5 +1,6 @@
 from constants import *
 from tools import *
+from ships import *
 
 def find_fleet_one():
     confidence = 0.4
@@ -46,12 +47,6 @@ def find_all_enemy():
     results = find_list(ENEMIES, 0.6)
     return results
 
-
-
-
-
-
-
 def sekect_one_enemy():
     results = find_all_enemy()
     if (results == None):
@@ -81,15 +76,7 @@ def attack_one():
             break
     gap(2)
     if_ambush()
-    touch(WEIGH_ANCHOR, 1)
-
-    update_screen()
-    battle_end_confirm = find_one(BATTLE_END_CONFIRM, 0.9)
-    while (battle_end_confirm == None):
-        update_screen()
-        touch(CONTINUE, 1)
-        battle_end_confirm = find_one(BATTLE_END_CONFIRM, 0.9)
-    touch(CONFIRM, 1)
+    weight_anchor()
 
 def attack_all():
     print("start attack all")
@@ -114,5 +101,4 @@ def start_battle(target):
     touch(target, 0.5)
     touch(GO_NOW_A, 0.5)
     touch(GO_NOW_B, 1)
-
     attack_all()
