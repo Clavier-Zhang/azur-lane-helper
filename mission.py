@@ -7,10 +7,12 @@ import json
 MISSION = [520, 353] #委托
 MISSION_CHOOSE = [185, 165]
 MISSION_MEMBER_CHOOESE = [189, 224]
+MISSION_CONTINUE = [365.0, 308.0]
 
 MISSION_CONFIRM = [580, 353]
 
 MISSION_START = [548, 232]
+MISSION_BACK = [15.0, 12.0]
 
 MISSION_FLEET_ONE = [S_ENTERPRISE, CLEVELAND, HELENA, HOUSTON, FIREFLY, LEXINGTON]
 MISSION_FLEET_TWO = [S_BELFAST, YORK, ELIZABETH, FLETCHER, NORFOLK, SANDIEGO]
@@ -35,6 +37,7 @@ def choose_fleet(fleet_number):
     elif (fleet_number == 4):
         return MISSION_FLEET_FOUR
 
+    
 def start_one_mission():
     mission_available = count(MISSION_FEATURE, 0.8)
     if (mission_available == 0):
@@ -47,43 +50,43 @@ def start_one_mission():
     touch(MISSION_MEMBER_CHOOESE, 0.5)
     update_screen()
 
-    for fleet_number in range(1, 5):
-        if (state.mission_fleets[fleet_number]):
-            print("mission fleet ", end = '')
-            print(fleet_number, end='')
-            print(" is free")
-            select_all_ships(choose_fleet(fleet_number))
+    for fleet in MISSION_FLEETS:
+        result = select_all_ships(fleet, 3)
+        print("result is ", end='')
+        print(result)
+        if (result <= 0):
+            print("current fleet is ok")
             touch(MISSION_CONFIRM, 0.5)
             touch(MISSION_START, 0.5)
-            touch(CONTINUE, 0.5)
-            state.mission_fleets[fleet_number] = False
-            print(state.mission_fleets)
-            json.dump(state.mission_fleets,file,ensure_ascii=False)  
+            touch(MISSION_CONTINUE, 0.5)
             break
+        print("current is busy, try next")
+        touch(MISSION_BACK, 0.5)
+        touch(MISSION_MEMBER_CHOOESE, 0.5)
+        # print(fleet, end = '')
+        
+
 
 def do_mission():
+    print("start do mission")
+    go_to(HOME_START)
     go_to(MISSION)
 
     mission_going = count(MISSION_GOING, 0.5)
     mission_finishing = 4 - count(MISSION_BOSS, 0.7) - (count(MISSION_FEATURE, 0.7)) - count(MISSION_GOING, 0.7)
     print(mission_going, end = ' ')
     print("missions are going")
-    print(mission_finishing, end = ' ')
-    print("missions are finishing")
     if (mission_going == 4):
         print("All missions are set")
         touch(GO_BACK, 0.5)
-        return
-    if (mission_finishing > 0):
-        print(mission_finishing, end = ' ')
-        print(" need to be collected")
         return
 
     while (mission_going < 4):
         start_one_mission()
         mission_going += 1
 
-    touch(GO_BACK, 0.5)
+    touch(MISSION_BACK, 0.5)
+    touch(MISSION_BACK, 0.5)
     
 
 

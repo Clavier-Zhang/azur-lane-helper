@@ -45,8 +45,6 @@ def update_screen():
 
 def touch(point, time):
     s.tap(point[0] ,point[1])
-    print("touch", end="")
-    print(point)
     gap(time)
 
 def swipe(start, end, gap_time):
@@ -99,7 +97,7 @@ def select_one(target, confidence):
         return 0
     touch(data, 1)
     print("select success")
-    return len(data)
+    return 1
 
 def select_all(target, confidence):
     data = find_all(target, confidence)
@@ -153,19 +151,21 @@ def weight_anchor():
         battle_end_confirm = find_one(BATTLE_END_CONFIRM, 0.9)
     touch(CONFIRM, 1)
 
-
-def select_all_ships(targets):
+def select_all_ships(targets, try_times):
     update_screen()
     length = len(targets)
-    while (length > 0):
+    
+    while (try_times > 0):
         update_screen()
         length -= select_list(targets, 0.9)
         print(length)
         if (length <= 0):
             print("finish!!!!!!")
-            return
+            return 0
         swipe(220, 150, 0.5)
+        try_times -= 1
+    return length
 
 def go_to(target):
-    touch(target, 0.5)
+    touch(target, 1)
     update_screen()

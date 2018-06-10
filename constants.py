@@ -12,6 +12,7 @@ URL = 'http://192.168.1.65:8100' #家里
 c = wda.Client(URL)
 s = c.session()
 
+
 class State:
     
     def __init__(self):
@@ -37,7 +38,7 @@ FAIL = 'FAIL'
 
 
 
-
+HOME_START = [567.0, 206.0]
 
 dock = aircv.imread('./image/dock.png')  #船坞
 SURPRISE = aircv.imread('./image/SURPRISE.png')
@@ -61,7 +62,7 @@ CHAPTER_SCREEN = ac.imread('./image/CHAPTER_SCREEN.png')
 GO_NOW_A = [482, 254]  #第一个立刻前往
 GO_NOW_B = [553, 323]  #第一个立刻前往
 WEIGH_ANCHOR = [550, 332]  #出击
-CONTINUE = [325, 302] #继续
+CONTINUE = [631.0, 184.0] #继续
 BATTLE_END_CONFIRM = ac.imread('./image/BATTLE_END_CONFIRM.png')
 CONFIRM = [570, 320] #确认
 GO_BACK = [17.0, 14.0]
