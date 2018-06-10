@@ -3,6 +3,7 @@ from tools import *
 import modules.aircv as ac
 from ships import *
 
+EVENT_LIST  = ac.imread('./image/event/EVENT_LIST.png')
 
 # 每日活动
 DAY_EVENT = [413, 351] # 每日 chapter界面中
@@ -30,54 +31,88 @@ GADGET_MODE = [256.0, 272.0]
 
 
 def get_one_chip():
-    touch(ENTER_DAY_EVENT, 0.5)
     touch(CHIP_MODE_MINE, 1)
+    update_screen()
+    if (exist(EVENT_LIST, 0.7)):
+        return 0
     weight_anchor()
+    return 1
+
+def get_all_chip():
+    touch(ENTER_DAY_EVENT, 0.5)
+    result = get_one_chip()
+    while (result == 1):
+        result = get_one_chip()
+    touch(GO_BACK, 0.5)
+    touch(GO_BACK, 0.5)
+    touch(DAY_EVENT, 0.5)
+    print("all chips have been collected")
 
 def get_one_box():
-    touch(ENTER_DAY_EVENT, 0.5)
     touch(BOX_MODE, 0.5)
+    update_screen()
+    if (exist(EVENT_LIST, 0.7)):
+        return 0
     weight_anchor()
+    return 1
 
 def get_one_book():
-    touch(ENTER_DAY_EVENT, 0.5)
     touch(BOOK_MODE, 0.5)
+    update_screen()
+    if (exist(EVENT_LIST, 0.7)):
+        return 0
     weight_anchor()
+    return 1
 
 def get_one_gadget():
-    touch(ENTER_DAY_EVENT, 0.5)
     touch(GADGET_MODE, 0.5)
+    update_screen()
+    if (exist(EVENT_LIST, 0.7)):
+        return 0
     weight_anchor()
+    return 1
     
-def get_all_chip():
-    get_one_chip()
-    get_one_chip()
-    get_one_chip()
+    
 
 def get_all_box():
     touch(CHOOSE_DAY_BOX, 0.5)
-    get_one_box()
-    get_one_box()
-    get_one_box()
+    touch(ENTER_DAY_EVENT, 0.5)
+    result = get_one_box()
+    while (result == 1):
+        result = get_one_box()
+    touch(GO_BACK, 0.5)
+    touch(GO_BACK, 0.5)
+    touch(DAY_EVENT, 0.5)
+    print("all boxes have been collected")
 
 def get_all_book():
     touch(CHOOSE_DAY_BOOK, 0.5)
-    get_one_book()
-    get_one_book()
-    get_one_book()
+    touch(ENTER_DAY_EVENT, 0.5)
+    result = get_one_book()
+    while (result == 1):
+        result = get_one_book()
+    touch(GO_BACK, 0.5)
+    touch(GO_BACK, 0.5)
+    touch(DAY_EVENT, 0.5)
+    print("all books have been collected")
 
 def get_all_gadget():
     touch(CHOOSE_DAY_GADGET, 0.5)
-    get_one_gadget()
-    get_one_gadget()
-    get_one_gadget()
+    touch(ENTER_DAY_EVENT, 0.5)
+    result = get_one_gadget()
+    while (result == 1):
+        result = get_one_gadget()
+    touch(GO_BACK, 0.5)
+    touch(GO_BACK, 0.5)
+    touch(DAY_EVENT, 0.5)
+    print("all gadgets have been collected")
 
 def do_day_event():
     print("start day event")
     go_to(HOME_START)
     touch(DAY_EVENT, 0.5)
     day = state.weekday
-    # get_all_chip()
+    get_all_chip()
     if (day == 0):
         get_all_gadget()
     elif (day == 1):
@@ -91,15 +126,9 @@ def do_day_event():
     elif (day == 5):
         get_all_box()
     elif (day == 6):
-
-        # get_all_gadget()
-        # touch(GO_BACK, 0.5)
-        # touch(MISSION, 0.5)
-
+        get_all_gadget()
         get_all_book()
-        touch(GO_BACK, 0.5)
-        touch(MISSION, 0.5)
         get_all_box()
-        touch(GO_BACK, 0.5)
-        touch(GO_BACK, 0.5)
+    touch(GO_BACK, 0.5)
+    touch(GO_BACK, 0.5)
         

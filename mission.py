@@ -26,6 +26,8 @@ MISSION_FINISHING = ac.imread('./image/missions/MISSION_FINISHING.png')
 MISSION_FEATURE = ac.imread('./image/missions/MISSION_FEATURE.png')
 MISSION_BOSS = ac.imread('./image/missions/MISSION_BOSS.png')
 
+MISSION_DD = ac.imread('./image/missions/MISSION_DD.png')
+
 
 def choose_fleet(fleet_number):
     if (fleet_number == 1):

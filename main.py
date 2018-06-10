@@ -15,7 +15,7 @@ MISSION_COMPLETE = aircv.imread('./image/home/MISSION_COMPLETE.png')
 COIN = aircv.imread('./image/home/COIN.png')
 GASOLIN = aircv.imread('./image/home/GASOLIN.png')
 MISSION_EMPTY = aircv.imread('./image/home/MISSION_EMPTY.png')
-HOME_CONTINUE = [149.0, 186.0]
+HOME_CONTINUE = [133.0, 52.0]
 
 def find_all_surprise(screen):
     data = find_all(SURPRISE, screen, 0.95)
@@ -45,8 +45,9 @@ def collect_one_mission():
     result = select_one(MISSION_COMPLETE, 0.9)
     if (result == 0):
         return result
-    touch(HOME_CONTINUE, 0.5)
-    touch(HOME_CONTINUE, 0.5)
+    touch(HOME_CONTINUE, 1)
+    touch(HOME_CONTINUE, 1)
+    touch(HOME_CONTINUE, 1)
     return result
  
 def collect_all_missions():
@@ -77,9 +78,9 @@ def collect_all():
     print("start collecting all")
     touch(HOME_SIDE_BAR, 1)
     update_screen()
+    collect_resource()
     collect_all_missions()
 
-    collect_resource()
 
     result = exist(MISSION_EMPTY, 0.9)
     touch(CONTINUE, 0.5)
@@ -90,17 +91,11 @@ def collect_all():
 #start_game()
 
 # analyze_screen()
-# swipe(70, 0.2)
-# select_all_ships([CLEVELAND, HELENA, HOUSTON, A_UNICORN, A_RAFI])
-# do_mission()
-# print(count(MISSION_GOING, 0.5))
-# select_all_ships([S_BELFAST])
-# print(state.mission_fleets)
-# update_screen()
 
-do_day_event()
+update_screen()
+# print(find_one(MISSION_DD, 0.9))
+# do_day_event()
 # collect_all()
 # do_mission()
-# print(state.mission_fleets)
-# print(find_list([GASOLIN], 0.8))
-# print(find_one(S_Z46, 0.7))
+battle_helper()
+# print(find_all_enemy())

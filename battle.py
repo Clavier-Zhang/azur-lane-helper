@@ -2,6 +2,11 @@ from constants import *
 from tools import *
 from ships import *
 
+
+BATTLE_SCREEN = ac.imread('./image/battle/BATTLE_SCREEN.png')
+BATTLE_START = ac.imread('./image/battle/BATTLE_START.png')
+
+
 def find_fleet_one():
     confidence = 0.4
     result = find_one(FLEET_ONE_RIGHT, confidence)
@@ -102,3 +107,18 @@ def start_battle(target):
     touch(GO_NOW_A, 0.5)
     touch(GO_NOW_B, 1)
     attack_all()
+
+def battle_helper():
+    print("start battle helper")
+    while(True):
+        update_screen()
+        if (exist(BATTLE_SCREEN, 0.9)):
+            print("at battle home screen, no action")
+        elif (exist(BATTLE_START, 0.9)):
+            print("auto mode")
+            weight_anchor()
+        else:
+            print("unknown page")
+        gap(1)
+        
+            
