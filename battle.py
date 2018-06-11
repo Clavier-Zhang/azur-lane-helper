@@ -108,17 +108,25 @@ def start_battle(target):
     touch(GO_NOW_B, 1)
     attack_all()
 
+def wait_until_show(target):
+    while (True):
+        if (exist(target, 0.7)):
+            return
+        else:
+            gap(1)
+
 def battle_helper():
     print("start battle helper")
     while(True):
         update_screen()
         if (exist(BATTLE_SCREEN, 0.9)):
-            print("at battle home screen, no action")
+            print("at battle home screen, decide which point to go")
+            screen_click()
+            wait_until_show(BATTLE_START)
         elif (exist(BATTLE_START, 0.9)):
             print("auto mode")
             weight_anchor()
         else:
             print("unknown page")
-        gap(1)
         
             

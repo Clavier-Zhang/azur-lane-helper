@@ -8,9 +8,8 @@ from constants import *
 
 
 def analyze_screen():
-    c.screenshot('screen.png')
-    screen = ac.imread('screen.png')
-    plt.imshow(screen, cmap = plt.get_cmap())
+    update_screen()
+    plt.imshow(state.screen, cmap = plt.get_cmap())
     pos=plt.ginput(2)
     (h, w) = screen.shape[:2]
     x1 = pos[0][1] * 0.5
@@ -45,6 +44,7 @@ def update_screen():
 
 def touch(point, time):
     s.tap(point[0] ,point[1])
+    # plt.pause(time)
     gap(time)
 
 def swipe(start, end, gap_time):
@@ -169,3 +169,18 @@ def select_all_ships(targets, try_times):
 def go_to(target):
     touch(target, 1)
     update_screen()
+
+def screen_click():
+    update_screen()
+    plt.ion()
+    plt.imshow(state.screen)
+    pos = plt.ginput(1)
+    plt.close()
+    plt.ioff()
+    x1 = pos[0][1] * 0.5
+    y1 = (SCREEN_WIDTH - pos[0][0]) * 0.5
+    point1 = [round(x1), round(y1)]
+    print ('point 1 is : ', end='')
+    print (point1)
+    touch(point1, 0)
+

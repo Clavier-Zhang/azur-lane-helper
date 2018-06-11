@@ -5,8 +5,8 @@ import modules.wda as wda
 import modules.aircv as ac
 import json
 
-URL = 'http://192.168.1.65:8100' #家里
-# URL = 'http://192.168.239.149:8100' #公司
+# URL = 'http://192.168.1.65:8100' #家里
+URL = 'http://192.168.239.149:8100' #公司
 # URL = 'http://192.168.199.134:8100' #太湖
 
 c = wda.Client(URL)
