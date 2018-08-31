@@ -110,7 +110,9 @@ def start_battle(target):
 
 def wait_until_show(target):
     while (True):
+        update_screen()
         if (exist(target, 0.7)):
+            print("it shows!!!")
             return
         else:
             gap(1)
@@ -121,8 +123,7 @@ def battle_helper():
         update_screen()
         if (exist(BATTLE_SCREEN, 0.9)):
             print("at battle home screen, decide which point to go")
-            screen_click()
-            wait_until_show(BATTLE_START)
+            # screen_click()
         elif (exist(BATTLE_START, 0.9)):
             print("auto mode")
             weight_anchor()

@@ -5,9 +5,15 @@ import modules.aircv as ac
 import matplotlib.pyplot as plt
 import math
 from constants import *
+import time
 
+
+def time_print(content):
+    newTime = time.strftime("%H:%M:%S", time.localtime())
+    print (newTime + " : " + content)
 
 def analyze_screen():
+    time_print ('start analyze screen')
     update_screen()
     plt.imshow(state.screen, cmap = plt.get_cmap())
     pos=plt.ginput(2)
@@ -18,13 +24,14 @@ def analyze_screen():
     y2 = (SCREEN_WIDTH - pos[1][0]) * 0.5
     point1 = [round(x1), round(y1)]
     point2 = [round(x2), round(y2)]
-    print ('point 1 is : ', end='')
+    print ('point 1 : ', end='')
     print (point1)
-    print ('point 2 is : ', end='')
+    print ('point 2 : ', end='')
     print (point2)
     distance = math.sqrt((x1-x2)**2 + (y1-y2)**2)
-    print ("the distance is ", "end")
+    print ("the distance is ", end='')
     print (distance)
+    time_print ('finish analyze screen')
 
 def setInterval(func,time):
     e = threading.Event()

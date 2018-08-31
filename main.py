@@ -90,13 +90,14 @@ def collect_all():
 
 #start_game()
 
-# analyze_screen()
+analyze_screen()
 
 update_screen()
 # print(find_one(MISSION_DD, 0.9))
 # do_day_event()
 # collect_all()
 # do_mission()
-battle_helper()
+# battle_helper()
+
 # screen_click()
 # print(find_all_enemy())
