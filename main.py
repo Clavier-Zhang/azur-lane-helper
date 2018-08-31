@@ -88,12 +88,10 @@ def collect_all():
     if (result):
         do_mission()
 
-#start_game()
 
-analyze_screen()
-
+# analyze_screen()
 update_screen()
-# print(find_one(MISSION_DD, 0.9))
+start_battle()
 # do_day_event()
 # collect_all()
 # do_mission()

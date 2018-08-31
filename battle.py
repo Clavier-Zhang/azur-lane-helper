@@ -3,8 +3,42 @@ from tools import *
 from ships import *
 
 
-BATTLE_SCREEN = ac.imread('./image/battle/BATTLE_SCREEN.png')
-BATTLE_START = ac.imread('./image/battle/BATTLE_START.png')
+
+
+
+
+CONFIRM = ac.imread('./image/battle_state/confirm.png')
+MAP_START = ac.imread('./image/battle_state/map_start.png')
+DETAIL_START = ac.imread('./image/battle_state/detail_start.png')
+BATTLE_PROGRESSING = ac.imread('./image/battle_state/battle_progressing.png')
+BATTLE_END = ac.imread('./image/battle_state/battle_end.png')
+
+
+def get_battle_state():
+
+    confidence = 0.8
+
+    if (exist(CONFIRM, confidence)):
+        return "confirm"
+    
+    if (exist(MAP_START, confidence)):
+        return "map"
+
+    if (exist(DETAIL_START, confidence)):
+        return "detail"
+
+    if (exist(BATTLE_PROGRESSING, 0.95)):
+        return "progressing"
+
+    if (exist(BATTLE_END, 0.99)):
+        return "end"
+
+    return "unknown"
+
+
+
+
+
 
 
 def find_fleet_one():
@@ -48,6 +82,21 @@ def select_fleet(fleet):
         if (result == FAIL):
             select_one(FLEET_TWO_LEFT, confidence)
 
+
+
+
+
+
+ENEMY_CV = ac.imread('./image/enemies/ENEMY_CV.png')
+ENEMY_BB = ac.imread('./image/enemies/ENEMY_BB.png')
+ENEMY_DD = ac.imread('./image/enemies/ENEMY_DD.png')
+ENEMY_BOSS = ac.imread('./image/enemies/ENEMY_BOSS.png')
+ENEMY_M = ac.imread('./image/enemies/enemy_m.png')
+
+ENEMIES = [ENEMY_BB, ENEMY_CV, ENEMY_DD, ENEMY_BOSS, ENEMY_M]
+
+
+
 def find_all_enemy():
     results = find_list(ENEMIES, 0.6)
     return results
@@ -60,62 +109,9 @@ def sekect_one_enemy():
     touch(results[0], 0.5)
     return SUCCESS
 
-def attack_one():
-    print("start attack one")
-    update_screen()
-    enemies = find_all_enemy()
-    while (enemies == None):
-        update_screen()
-        enemies = find_all_enemy()
 
-    update_screen()
-    fleet_one_position = find_fleet_one()
-    
 
-    for enemy in enemies:
-        touch(enemy, 1)
-        position = find_fleet_one()
-        if (position[0] == fleet_one_position[0] and position[1] == fleet_one_position[1]):
-            continue
-        else:
-            break
-    gap(2)
-    if_ambush()
-    weight_anchor()
 
-def attack_all():
-    print("start attack all")
-    update_screen()
-    chapter = find_one(CHAPTER_SCREEN, 0.9)
-    print(chapter)
-    while (chapter == None):
-        attack_one()
-        update_screen()
-        chapter = find_one(CHAPTER_SCREEN, 0.9)
-        print(chapter)
-
-def if_ambush():
-    update_screen()
-    result = find_one(AMBUSH, 0.9)
-    if (result == None):
-        return
-    print("ambushed, try escape")
-    touch(ESCAPE, 1)
-
-def start_battle(target):
-    touch(target, 0.5)
-    touch(GO_NOW_A, 0.5)
-    touch(GO_NOW_B, 1)
-    attack_all()
-
-def wait_until_show(target):
-    while (True):
-        update_screen()
-        if (exist(target, 0.7)):
-            print("it shows!!!")
-            return
-        else:
-            gap(1)
 
 def battle_helper():
     print("start battle helper")
@@ -131,3 +127,11 @@ def battle_helper():
             print("unknown page")
         
             
+
+
+def start_battle():
+
+    while (True):
+        state = get_battle_state()
+        print(state)
+        gap(1)

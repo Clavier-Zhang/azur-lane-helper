@@ -43,11 +43,7 @@ HOME_START = [567.0, 206.0]
 
 dock = aircv.imread('./image/dock.png')  #船坞
 SURPRISE = aircv.imread('./image/SURPRISE.png')
-BATTLE_FEATURE_A = aircv.imread('./image/BATTLE_FEATURE_A.png')
-HOME_FEATURE_A = aircv.imread('./image/HOME_FEATURE_A.png')
-MAP_FEATURE_A = aircv.imread('./image/MAP_FEATURE_A.png')
-PREPARE_FEATURE_A = aircv.imread('./image/PREPARE_FEATURE_A.png')
-END_FEATURE_A = aircv.imread('./image/END_FEATURE_A.png')
+
 
 
 
